@@ -20,6 +20,7 @@ interface AuthorContextType {
   updateAuthor: (author: Author) => void;
   removeAuthor: (id: number) => void;
   setAuthors: (authors: Author[]) => void;
+  filtrarAuthor: (name: string) => void;
 }
 
 // Crear contexto
@@ -51,8 +52,13 @@ export function AuthorProvider({ children }: { children: ReactNode }) {
     setAuthors((prev) => prev.filter((author) => author.id !== id));
   };
 
+  // Función para filtrar autores por nombre
+   const filtrarAuthor = (name: string) => {
+    setAuthors((prev) => prev.filter((author) => author.name.toLowerCase() !== name));
+  };
+
   return (
-    <AuthorContext.Provider value={{ authors, addAuthor,updateAuthor, removeAuthor, setAuthors }}>
+    <AuthorContext.Provider value={{ authors, addAuthor,updateAuthor, removeAuthor, setAuthors, filtrarAuthor }}>
       {children}
     </AuthorContext.Provider>
   );

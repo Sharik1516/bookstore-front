@@ -18,6 +18,7 @@ export default function AuthorForm({ initialData }: AuthorFormProps) {
   const [description, setDescription] = useState(initialData?.description || "");
   const [image, setImage] = useState(initialData?.image || "");
 
+  const isValid = name.trim() !== "" && birthDate.trim() !== "" && description.trim() !== "" && image.trim() !== ""; // validación simple
   // Función que se ejecuta al enviar el formulario
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault(); // evita que la página se recargue
@@ -105,7 +106,7 @@ export default function AuthorForm({ initialData }: AuthorFormProps) {
       </div>
 
       {/* Botón de envío */}
-      <button type="submit" aria-label="Guardar autor">
+      <button type="submit" disabled={!isValid} aria-label="Guardar autor">
         {initialData ? "Guardar cambios" : "Crear autor"}
       </button>
 

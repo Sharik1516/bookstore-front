@@ -5,12 +5,16 @@
 import { useEffect, useState } from "react";
 import { getAuthors } from "../services/api";
 import AuthorCard from "./AuthorCard";
-import { useAuthors } from "../services/AuthorContext";
+import { useAuthors, Author } from "../services/AuthorContext";
 
-export default function AuthorList() {
+interface AuthorFormProps {
+  initialData?: Author;
+}
+
+export default function AuthorList({ initialData }: AuthorFormProps) {
 
   // useState guarda la lista de autores en memoria
-  const { authors, setAuthors } = useAuthors();
+  const { authors, setAuthors, filtrarAuthor } = useAuthors();
 
   // useEffect se ejecuta cuando el componente se renderiza por primera vez
   useEffect(() => {
@@ -32,11 +36,31 @@ export default function AuthorList() {
 
   }, []);
   // El array vacío significa que solo se ejecuta una vez al montar el componente
+  const [name, setName] = useState(initialData?.name || "");
+
+  // Función que se ejecuta al escribir en el input de búsqueda
+  const handleBuscar = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.value;
+    setName(name);
+    filtrarAuthor(name.toLocaleLowerCase());
+  }
+
+
 
   return (
     <div>
 
       <h2>Lista de Autores</h2>
+      <div>
+        <label htmlFor="name">Buscar:</label>
+        <input
+          id="busqueda"
+          type="text"
+          onChange={handleBuscar}
+          aria-label="Buscar autor por nombre"
+        />
+      </div>
+      <><br></br></>
 
       {/* Si no hay autores mostramos un mensaje */}
       {authors.length === 0 ? (
@@ -44,14 +68,13 @@ export default function AuthorList() {
       ) : (
         // Recorremos los autores y creamos una tarjeta por cada uno
         authors.map((author) => (
-          <AuthorCard
-          key={author.id}
-          id={author.id}
-          name={author.name}
-          birthDate={author.birthDate}
-          description={author.description}
-          image={author.image}
-        />
+          <><br></br><AuthorCard
+            key={author.id}
+            id={author.id}
+            name={author.name}
+            birthDate={author.birthDate}
+            description={author.description}
+            image={author.image} /></>
         ))
 
       )}
