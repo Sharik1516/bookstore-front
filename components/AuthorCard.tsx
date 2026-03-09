@@ -18,17 +18,19 @@ export default function AuthorCard({ id,name,birthDate,description,image }: Auth
   const { removeAuthor } = useAuthors();
 
   return (
-    <div>
+    <div className="card" style={{ border: '2px solid #333', borderRadius: '10px', padding: '20px', width: '300px', boxShadow: '2px 2px 10px rgba(0,0,0,0.1)' }}>
 
-      <img src={image} alt={`Imagen de ${name}`} width={120} />
+      <img className="card-img-top" src={image} alt={`Imagen de ${name}`} width={120} />
 
-      <h3>{name}</h3>
+      <div className="card-body">
 
-      <p>
+      <h5 className="card-title">{name}</h5>
+
+      <p className="card-text">
         <strong>Nacimiento:</strong> {birthDate}
       </p>
 
-      <p>{description}</p>
+      <p className="card-text">{description}</p>
 
       {/* boton editar */}
       <button
@@ -45,7 +47,9 @@ export default function AuthorCard({ id,name,birthDate,description,image }: Auth
       >
         Eliminar
       </button>
-
+      </div>
+      <br></br>
     </div>
+    
   );
 }
